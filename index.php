@@ -65,7 +65,6 @@ if (isset($_REQUEST['btn'])) {
 
 <body class="bg">
 	<?php include 'include/navbar.php'; ?>
-<h1>men peler</h1>
 	<section id="bidang" class="bidang">
 		<div class="container-fluid">
 			<div class="row marquee justify-content-center">
@@ -80,25 +79,8 @@ if (isset($_REQUEST['btn'])) {
 					<h3 class="bg-supergraphicss p-2 text-white text-center rounded">Dashboard</h3>
 				</div>
 			</div>
-			<div class="row justify-content-center menu">
-
-				<div class="col-md-10 mt-3 mb-2">
-					<form class="form-inline" method="post">
-						<input for="colFormLabel" class="form-control mr-sm-2" type="text" autocomplete="off" placeholder="Cari" aria-label="Search" name="keyword">
-						<div class="dropdown">
-							<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								Cari berdasarkan
-								<img src="img/baseline_search_white_18dp.png">
-							</button>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-								<button class="dropdown-item" name="cari_judul_buku" type="submit">Judul Buku</button>
-								<button class="dropdown-item" name="cari_kategori" type="submit">Kategori</button>
-								<button class="dropdown-item" name="cari_tahun" type="submit">Tahun</button>
-								<button class="dropdown-item" name="cari_nama_file" type="submit">Nama File</button>
-							</div>
-						</div>
-					</form>
-				</div>
+			<h1 style="text-align: center;"><?= $jumlah_data ?></h1>
+			<div class="row justify-content-end menu">
 				<?php if ($_SESSION['akses'] == 'administrator') : ?>
 					<div class="col-md-2 mt-3 mb-2">
 						<a href="input.php" class="btn btn-primary" style="border-radius: 5px;">
@@ -141,24 +123,34 @@ if (isset($_REQUEST['btn'])) {
 					<table rules="all" border="2" cellpadding="10" cellspacing="0" class="table bg-white table-bordered table-hover table-primary shadow-box">
 						<tr class="bg-primary text-white text-center">
 							<th>No </th>
-							<th>Judul Buku</th>
+							<th>Judul Buku
+								<form class="form" method="post">
+									<input for="colFormLabel" class="form-control mr-sm-2" type="text" autocomplete="off" placeholder="Cari" aria-label="Search" name="keyword">
+									<button hidden name="cari_judul_buku" type="submit">Cari
+								</form>
+							</th>
 							<th>Tahun</th>
 							<th>
 								<div class="dropdown">
 									<form action="" method="post">
-									Kategori
-									<button class="btn dropdown-toggle text-light" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									</button>
+										Kategori
+										<button class="btn dropdown-toggle text-light" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										</button>
 										<div class="dropdown-menu" name="drop" aria-labelledby="dropdownMenuButton">
 											<?php $kategori = query("SELECT * FROM kategori"); ?>
 											<?php foreach ($kategori as $row) : ?>
 												<button class="dropdown-item" name="btn" value="<?= $row['nama_kategori'] ?>" type="submit"><?= $row['nama_kategori'] ?></button>
-												<?php endforeach; ?>
+											<?php endforeach; ?>
 										</div>
 									</form>
 								</div>
 							</th>
-							<th>FIle</th>
+							<th>FIle
+								<form class="form" method="post">
+									<input for="colFormLabel" class="form-control mr-sm-2" type="text" autocomplete="off" placeholder="Cari" aria-label="Search" name="keyword">
+									<button hidden name="cari_nama_file" type="submit">Cari
+								</form>
+							</th>
 							<th class="aksi">Aksi</th>
 							<th>Keterangan</th>
 						</tr>
@@ -167,10 +159,10 @@ if (isset($_REQUEST['btn'])) {
 							$file_path = "uploads/" . $row['filename']; ?>
 							<tr class="text-center">
 								<td><?= $i; ?></td>
-								<td><?= $row["judul_buku"]; ?></td>
-								<td><?= $row["tahun"]; ?></td>
-								<td><?= $row["nama_kategori"]; ?></td>
-								<td><?= $row["filename"]; ?></td>
+								<td style="text-align: left;"><?= $row["judul_buku"]; ?></td>
+								<td style="text-align: left;"><?= $row["tahun"]; ?></td>
+								<td style="text-align: left;"><?= $row["nama_kategori"]; ?></td>
+								<td style="text-align: left;"><?= $row["filename"]; ?></td>
 								<td class="aksi">
 									<?php if ($_SESSION['akses'] == 'administrator') : ?>
 										<a href="ubah.php?id=<?= $row['id_arsip_dokumen']; ?>" onclick="return confirm('Apakah Anda Ingin Mengubah Data ?');" class="m-1 btn btn-warning text-center text-white">
@@ -180,8 +172,20 @@ if (isset($_REQUEST['btn'])) {
 											<img src="img/baseline_delete_white_18dp.png">
 										</a>
 									<?php endif ?>
-									<a href="<?php echo $file_path; ?>" class="btn btn-warning text-light mb-2" target="_blank" style="border-radius: 5px;">Lihat</a>
+									<!-- <a href="<?php echo $file_path; ?>" class="btn btn-warning text-light mb-2" target="_blank" style="border-radius: 5px;">Lihat</a>
 									<a href="<?php echo $file_path; ?>" class="btn btn-danger" style="border-radius: 5px;" download>Unduh</a>
+									<button class="btn btn-success" style="border-radius: 5px;" id="print-btn"></button> -->
+									<div class="dropdown text-center">
+										<button class="btn btn-warning text-white dropdown-toggle " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											Aksi
+										</button>
+										<div class="dropdown-menu justify-content-center" aria-labelledby="dropdownMenuButton">
+											<a class="dropdown-item text-white text-center mt-1 mb-1 bg-warning rounded-pill" href="<?php echo $file_path; ?>" target="_blank">
+												Lihat</a>
+											<a class="dropdown-item text-white text-center mt-1 mb-1 bg-danger rounded-pill" href="<?php echo $file_path; ?>" download>Download</a>
+											<button class="dropdown-item text-white text-center mt-1 mb-1 bg-success rounded-pill " style="border-radius: 5px;" id="print-btn">Print</button>
+										</div>
+									</div>
 								</td>
 								<td>
 									<div class="data-keterangan" data-keterangan="<?= htmlspecialchars($row['keterangan'], ENT_QUOTES, 'UTF-8'); ?>"></div><button class="btn btn-success" onclick="showmsg(this);">Riwayat</button>
@@ -240,7 +244,7 @@ if (isset($_REQUEST['btn'])) {
 		function showmsg(button) {
 			var dataKeterangan = button.previousElementSibling.getAttribute('data-keterangan');
 
-			if (dataKeterangan !== currentDataKeterangan) {  
+			if (dataKeterangan !== currentDataKeterangan) {
 				swal({
 					text: dataKeterangan,
 				});
@@ -252,6 +256,13 @@ if (isset($_REQUEST['btn'])) {
 		$(function() {
 			$('[data-toggle="popover"]').popover()
 		})
+	</script>
+	<script>
+		document.getElementById('print-btn').addEventListener('click', function() {
+			var url = "<?php echo $file_path; ?>"; // Ubah URL ini ke alamat file PDF Anda
+			var w = window.open(url);
+			w.print(url);
+		});
 	</script>
 </body>
 
