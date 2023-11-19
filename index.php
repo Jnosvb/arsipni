@@ -66,7 +66,6 @@ if (isset($_REQUEST['btn'])) {
 <body class="bg">
 	<?php include 'include/navbar.php'; ?>
 <h1>men</h1>
-<h1>men</h1>
 	<section id="bidang" class="bidang">
 		<div class="container-fluid">
 			<div class="row marquee justify-content-center">
