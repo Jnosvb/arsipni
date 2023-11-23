@@ -85,7 +85,7 @@ if (isset($_REQUEST['btntahun'])) {
 				</div>
 			</div>
 			<h1 style="text-align: center;"><?= $jumlah_data ?></h1>
-			<h1 style="text-align: center;">Pinjam Dulu Seratus</h1>
+			<h1 style="text-align: center;">Pinjam Dulu Seratuss</h1>
 			<span id="txtHint"></span>
 			<div class="row justify-content-end menu">
 				<?php if ($_SESSION['akses'] == 'administrator') : ?>
