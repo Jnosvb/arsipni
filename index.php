@@ -1,6 +1,5 @@
 <?php
 require 'functions.php';
-
 if (!isset($_SESSION["login"])) {
 	header("Location: login.php");
 	exit;
@@ -38,6 +37,12 @@ if (isset($_REQUEST['btn'])) {
 	$data =  $_REQUEST['btn'];
 	$isi = urutsku($data);
 }
+if (isset($_REQUEST['btntahun'])) {
+	$data =  $_REQUEST['btntahun'];
+	$isi = uruttahun($data);
+}
+
+
 ?>
 
 <!doctype html>
@@ -80,6 +85,7 @@ if (isset($_REQUEST['btn'])) {
 				</div>
 			</div>
 			<h1 style="text-align: center;"><?= $jumlah_data ?></h1>
+			<span id="txtHint"></span>
 			<div class="row justify-content-end menu">
 				<?php if ($_SESSION['akses'] == 'administrator') : ?>
 					<div class="col-md-2 mt-3 mb-2">
@@ -120,7 +126,7 @@ if (isset($_REQUEST['btn'])) {
 			</div>
 			<div class="row">
 				<div class="col">
-					<table rules="all" border="2" cellpadding="10" cellspacing="0" class="table bg-white table-bordered table-hover table-primary shadow-box">
+					<table rules="all" border="2" cellpadding="10" cellspacing="0" class="table bg-white table-bordered table-hover table-primary shadow-box" id="resultTableBody">
 						<tr class="bg-primary text-white text-center">
 							<th>No </th>
 							<th>Judul Buku
@@ -129,7 +135,27 @@ if (isset($_REQUEST['btn'])) {
 									<button hidden name="cari_judul_buku" type="submit">Cari
 								</form>
 							</th>
-							<th>Tahun</th>
+							<th>
+
+								<div class="dropdown">
+									<form action="" method="post">
+										Tahun
+										<button class="btn dropdown-toggle text-light" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										</button>
+										<div class="dropdown-menu" name="drop" aria-labelledby="dropdownMenuButton">
+											<?php
+											for ($year = date("Y"); $year >= 2002; $year--) {
+
+
+											?>
+												<button class="dropdown-item" name="btntahun" value="<?= $year ?>" type="submit"><?= $year ?></button>
+											<?php } ?>
+										</div>
+									</form>
+								</div>
+							</th>
+
+							</th>
 							<th>
 								<div class="dropdown">
 									<form action="" method="post">
@@ -160,7 +186,9 @@ if (isset($_REQUEST['btn'])) {
 							<tr class="text-center">
 								<td><?= $i; ?></td>
 								<td style="text-align: left;"><?= $row["judul_buku"]; ?></td>
-								<td style="text-align: left;"><?= $row["tahun"]; ?></td>
+								<td style="text-align: left;">
+									<?= $row["tahun"]; ?>
+								</td>
 								<td style="text-align: left;"><?= $row["nama_kategori"]; ?></td>
 								<td style="text-align: left;"><?= $row["filename"]; ?></td>
 								<td class="aksi">
@@ -235,6 +263,7 @@ if (isset($_REQUEST['btn'])) {
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="vendor/jquery-3.3.1.slim.min.js"></script>
+
 	<script src="vendor/popper.min.js"></script>
 	<script src="vendor/bootstrap.min.js"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -252,18 +281,9 @@ if (isset($_REQUEST['btn'])) {
 			}
 		}
 	</script>
-	<script>
-		$(function() {
-			$('[data-toggle="popover"]').popover()
-		})
-	</script>
-	<script>
-		document.getElementById('print-btn').addEventListener('click', function() {
-			var url = "<?php echo $file_path; ?>"; // Ubah URL ini ke alamat file PDF Anda
-			var w = window.open(url);
-			w.print(url);
-		});
-	</script>
+	<!-- Script untuk menangani perubahan pada elemen <select> -->
+
+
 </body>
 
 </html>

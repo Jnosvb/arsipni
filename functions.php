@@ -3,6 +3,17 @@ session_start();
 // koneksi ke database
 $koneksi = mysqli_connect("localhost", "root", "", "arsip");
 
+
+function uruttahun($selectedYear)
+{
+	global $koneksi;
+
+	// Query data berdasarkan tahun yang dipilih
+	$query = "SELECT * FROM arsip_dokumen JOIN kategori ON arsip_dokumen.id_kategori = kategori.id_kategori WHERE arsip_dokumen.tahun = '$selectedYear'";
+	return query($query);
+}
+
+
 function query($query)
 {
 	global $koneksi;
@@ -227,6 +238,10 @@ function urutsku($data)
 	$query = "SELECT * FROM arsip_dokumen JOIN kategori ON arsip_dokumen.id_kategori = kategori.id_kategori WHERE nama_kategori Like '%$data%'";
 	return query($query);
 }
+
+
+
+
 function cariAkun($keyword)
 {
 	$query = "SELECT * FROM user WHERE 
